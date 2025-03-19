@@ -8,8 +8,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+
 
 @Controller
 @AllArgsConstructor
@@ -45,8 +48,9 @@ public class PatientController {
         return "formPatients";
     }
     @PostMapping("/save")
-    public String save(Model model, Patient Patient) {
+    public String save(@ModelAttribute Patient Patient,Model model) {
         patientRepository.save(Patient);
+        model.addAttribute("patient", Patient);
         return "formPatients";
     }
 }
