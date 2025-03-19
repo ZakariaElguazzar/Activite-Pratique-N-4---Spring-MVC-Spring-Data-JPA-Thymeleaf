@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="Template1" >
+<head>
+    <meta charset="UTF-8">
+    <title>Form Patients</title>
+</head>
+<body>
+  <div layout:fragment="content1">
+    <div class="container">
+  <form th:method="post" th:action="@{save}">
+    <div>
+        <label for="nom">Nom</label>
+        <input class="form-control" type="text" id="nom" name="nom" th:value="${patient.nom}" required>
+        <span th:errors="${patient.nom}"></span>
+    </div>
+    <div>
+      <label for="dateNaissance">Date Naissance</label>
+      <input class="form-control" type="date" id="dateNaissance" name="dateNaissance" th:value="${patient.dateNaissance}" required>
+      <span th:errors="${patient.dateNaissance}"></span>
+    </div>
+    <div>
+      <label for="malade">Malade</label>
+      <input  type="checkbox" id="malade" name="malade" th:checked="${patient.malade}" required>
+      <span th:errors="${patient.malade}"></span>
+    </div>
+    <div>
+      <label for="score">Score</label>
+      <input class="form-control" type="text" id="score" name="score" th:value="${patient.score}" required>
+      <span th:errors="${patient.score}"></span>
+    </div>
+    <button type="submit" class="btn-primary">Save</button>
+  </form>
+  </div>
+  </div>
+</body>
+</html>
