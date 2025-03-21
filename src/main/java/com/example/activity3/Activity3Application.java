@@ -15,7 +15,7 @@ public class Activity3Application {
     public static void main(String[] args) {
         SpringApplication.run(Activity3Application.class, args);
     }
-    @Bean
+//    @Bean
     CommandLineRunner start(PatientRepository patientRepository) {
         return args -> {
             patientRepository.save(new Patient(null, "Mohamed", new Date(), false, 34));
