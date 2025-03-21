@@ -10,23 +10,23 @@
   <form th:method="post" th:action="@{save}">
     <div>
         <label for="nom">Nom</label>
-        <input class="form-control" type="text" id="nom" name="nom" th:value="${patient.nom}" required>
-        <span th:errors="${patient.nom}"></span>
+        <input class="form-control" type="text" id="nom" name="nom" th:value="${patient.nom}">
+        <span class="text-danger" th:errors="${patient.nom}"></span>
     </div>
     <div>
       <label for="dateNaissance">Date Naissance</label>
-      <input class="form-control" type="date" id="dateNaissance" name="dateNaissance" th:value="${patient.dateNaissance}" required>
-      <span th:errors="${patient.dateNaissance}"></span>
+      <input class="form-control" type="date" id="dateNaissance" name="dateNaissance" th:value="${patient.dateNaissance}" >
+      <span class="text-danger" th:errors="${patient.dateNaissance}"></span>
     </div>
     <div>
       <label for="malade">Malade</label>
       <input  type="checkbox" id="malade" name="malade" th:checked="${patient.malade}">
-      <span th:errors="${patient.malade}"></span>
+      <span class="text-danger" th:errors="${patient.malade}"></span>
     </div>
     <div>
       <label for="score">Score</label>
-      <input class="form-control" type="text" id="score" name="score" th:value="${patient.score}" required>
-      <span th:errors="${patient.score}"></span>
+      <input class="form-control" type="text" id="score" name="score" th:value="${patient.score}" >
+      <span class="text-danger" th:errors="${patient.score}"></span>
     </div>
     <button type="submit" class="btn-primary">Save</button>
   </form>
