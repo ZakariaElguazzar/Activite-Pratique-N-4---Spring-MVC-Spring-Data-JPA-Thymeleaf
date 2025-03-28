@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class PatientController {
     private PatientRepository patientRepository;
 
-    @GetMapping("/patients")
+    @GetMapping("/user/patients")
     public String index(Model model,
                         @RequestParam(name = "page",defaultValue = "0") int page,
                         @RequestParam(name = "size",defaultValue = "4") int size,
@@ -29,23 +29,23 @@ public class PatientController {
         model.addAttribute("keyword", kw);
         return "Patients";
     }
-    @GetMapping("/delete")
+    @GetMapping("/admin/delete")
     public String delete(@RequestParam(name = "id") Long id,
                          @RequestParam(name = "page",defaultValue = "0") int page,
                          @RequestParam(name = "keyword",defaultValue = "") String kw) {
         patientRepository.deleteById(id);
-        return "redirect:/patients?page="+page+"&keyword="+kw;
+        return "redirect:/user/patients?page="+page+"&keyword="+kw;
     }
     @GetMapping("/")
     public String home() {
-        return "redirect:/patients";
+        return "redirect:/user/patients";
     }
-    @GetMapping("/formPatients")
+    @GetMapping("/admin/formPatients")
     public String formPatients(Model model) {
         model.addAttribute("patient", new Patient());
         return "formPatients";
     }
-    @GetMapping("/editPatient")
+    @GetMapping("/admin/editPatient")
     public String editPatient(@RequestParam(name = "id") Long id,Model model,@RequestParam(name = "keyword")String keyword,@RequestParam(name = "page")int page) {
         Patient patient = patientRepository.findById(id).orElse(null);
         if (patient == null) throw new RuntimeException("Patient not found");
@@ -54,10 +54,10 @@ public class PatientController {
         model.addAttribute("currentPage", page);
         return "editPatient";
     }
-    @PostMapping("/save")
+    @PostMapping("/admin/save")
     public String save(@ModelAttribute @Valid Patient Patient, BindingResult bindingResult, Model model,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "") String keyword) {
         if(bindingResult.hasErrors()) return "formPatients";
         patientRepository.save(Patient);
-        return "redirect:/patients?page="+page+"&keyword="+keyword;
+        return "redirect:/user/patients?page="+page+"&keyword="+keyword;
     }
 }
