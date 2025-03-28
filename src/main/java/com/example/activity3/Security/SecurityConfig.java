@@ -22,14 +22,23 @@ public class SecurityConfig {
     }
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
-                .formLogin(Customizer.withDefaults())
-                .csrf(Customizer.withDefaults())
+        httpSecurity
+                .rememberMe(rm->rm
+                        .key("uniqueAndSecret")
+                        .tokenValiditySeconds(86400)
+                )
+                .formLogin(form->form
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/user/patients",true)
+                        .permitAll())
                 .authorizeHttpRequests(ar->ar.requestMatchers("/delete/**").hasRole("ADMIN"))
                 .authorizeHttpRequests(ar->ar.requestMatchers("/admin/**").hasRole("ADMIN"))
                 .authorizeHttpRequests(ar->ar.requestMatchers("/user/**").hasRole("USER"))
+                .authorizeHttpRequests(ar->ar.requestMatchers("/webjars/**").permitAll())
                 .authorizeHttpRequests(ar->ar.anyRequest().authenticated())
-                .build();
+//                .authorizeHttpRequests(ar->ar.anyRequest().permitAll())
+                .exceptionHandling(ar->ar.accessDeniedPage("/notAuthorized"));
+        return httpSecurity.build();
     }
 
 }
