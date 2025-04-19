@@ -1,4 +1,7 @@
 package com.example.activity3.Security;
+import com.example.activity3.Security.Service.UserDetailsServiceImpl;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -6,6 +9,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
@@ -16,12 +20,15 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@AllArgsConstructor
 public class SecurityConfig {
+    private UserDetailsServiceImpl userDetailsServiceImpl;
 
-     @Bean
+     //@Bean
      public JdbcUserDetailsManager jdbcUserDetailsManager(DataSource dataSource){
          return new JdbcUserDetailsManager(dataSource);
      }
+
     //@Bean
     public InMemoryUserDetailsManager inMemoryUserDetailsManager( PasswordEncoder passwordEncoder) {
         return new InMemoryUserDetailsManager(
@@ -49,6 +56,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(ar->ar.requestMatchers("/csrf").permitAll())
                 .authorizeHttpRequests(ar->ar.requestMatchers("/addPatient").permitAll())
                 .authorizeHttpRequests(ar->ar.anyRequest().authenticated())
+                .userDetailsService(userDetailsServiceImpl)
 //                .authorizeHttpRequests(ar->ar.anyRequest().permitAll())
                 .exceptionHandling(ar->ar.accessDeniedPage("/notAuthorized"));
         return httpSecurity.build();
